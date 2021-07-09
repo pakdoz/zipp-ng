@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<script>if(navigator.userAgent.match(/MSIE|Internet Explorer/i)||navigator.userAgent.match(/Trident\/7\..*?rv:11/i)){var href=document.location.href;if(!href.match(/[?&]nowprocket/)){if(href.indexOf("?")==-1){if(href.indexOf("#")==-1){document.location.href=href+"?nowprocket=1"}else{document.location.href=href.replace("#","?nowprocket=1#")}}else{if(href.indexOf("#")==-1){document.location.href=href+"&nowprocket=1"}else{document.location.href=href.replace("#","&nowprocket=1#")}}}}</script><script>class RocketLazyLoadScripts{constructor(e){this.triggerEvents=e,this.eventOptions={passive:!0},this.userEventListener=this.triggerListener.bind(this),this.delayedScripts={normal:[],async:[],defer:[]},this.allJQueries=[]}_addUserInteractionListener(e){this.triggerEvents.forEach((t=>window.addEventListener(t,e.userEventListener,e.eventOptions)))}_removeUserInteractionListener(e){this.triggerEvents.forEach((t=>window.removeEventListener(t,e.userEventListener,e.eventOptions)))}triggerListener(){this._removeUserInteractionListener(this),"loading"===document.readyState?document.addEventListener("DOMContentLoaded",this._loadEverythingNow.bind(this)):this._loadEverythingNow()}async _loadEverythingNow(){this._delayEventListeners(),this._delayJQueryReady(this),this._handleDocumentWrite(),this._registerAllDelayedScripts(),this._preloadAllScripts(),await this._loadScriptsFromList(this.delayedScripts.normal),await this._loadScriptsFromList(this.delayedScripts.defer),await this._loadScriptsFromList(this.delayedScripts.async),await this._triggerDOMContentLoaded(),await this._triggerWindowLoad(),window.dispatchEvent(new Event("rocket-allScriptsLoaded"))}_registerAllDelayedScripts(){document.querySelectorAll("script[type=rocketlazyloadscript]").forEach((e=>{e.hasAttribute("src")?e.hasAttribute("async")&&!1!==e.async?this.delayedScripts.async.push(e):e.hasAttribute("defer")&&!1!==e.defer||"module"===e.getAttribute("data-rocket-type")?this.delayedScripts.defer.push(e):this.delayedScripts.normal.push(e):this.delayedScripts.normal.push(e)}))}async _transformScript(e){return await this._requestAnimFrame(),new Promise((t=>{const n=document.createElement("script");let i;[...e.attributes].forEach((e=>{let t=e.nodeName;"type"!==t&&("data-rocket-type"===t&&(t="type",i=e.nodeValue),n.setAttribute(t,e.nodeValue))})),e.hasAttribute("src")&&this._isValidScriptType(i)?(n.addEventListener("load",t),n.addEventListener("error",t)):(n.text=e.text,t()),e.parentNode.replaceChild(n,e)}))}_isValidScriptType(e){return!e||""===e||"string"==typeof e&&["text/javascript","text/x-javascript","text/ecmascript","text/jscript","application/javascript","application/x-javascript","application/ecmascript","application/jscript","module"].includes(e.toLowerCase())}async _loadScriptsFromList(e){const t=e.shift();return t?(await this._transformScript(t),this._loadScriptsFromList(e)):Promise.resolve()}_preloadAllScripts(){var e=document.createDocumentFragment();[...this.delayedScripts.normal,...this.delayedScripts.defer,...this.delayedScripts.async].forEach((t=>{const n=t.getAttribute("src");if(n){const t=document.createElement("link");t.href=n,t.rel="preload",t.as="script",e.appendChild(t)}})),document.head.appendChild(e)}_delayEventListeners(){let e={};function t(t,n){!function(t){function n(n){return e[t].eventsToRewrite.indexOf(n)>=0?"rocket-"+n:n}e[t]||(e[t]={originalFunctions:{add:t.addEventListener,remove:t.removeEventListener},eventsToRewrite:[]},t.addEventListener=function(){arguments[0]=n(arguments[0]),e[t].originalFunctions.add.apply(t,arguments)},t.removeEventListener=function(){arguments[0]=n(arguments[0]),e[t].originalFunctions.remove.apply(t,arguments)})}(t),e[t].eventsToRewrite.push(n)}function n(e,t){const n=e[t];Object.defineProperty(e,t,{get:n||function(){},set:n=>{e["rocket"+t]=n}})}t(document,"DOMContentLoaded"),t(window,"DOMContentLoaded"),t(window,"load"),t(window,"pageshow"),t(document,"readystatechange"),n(document,"onreadystatechange"),n(window,"onload"),n(window,"onpageshow")}_delayJQueryReady(e){let t=window.jQuery;Object.defineProperty(window,"jQuery",{get:()=>t,set(n){if(n&&n.fn&&!e.allJQueries.includes(n)){n.fn.ready=n.fn.init.prototype.ready=function(t){e.domReadyFired?t.bind(document)(n):document.addEventListener("rocket-DOMContentLoaded",(()=>t.bind(document)(n)))};const t=n.fn.on;n.fn.on=n.fn.init.prototype.on=function(){if(this[0]===window){function e(e){return e.split(" ").map((e=>"load"===e||0===e.indexOf("load.")?"rocket-jquery-load":e)).join(" ")}"string"==typeof arguments[0]||arguments[0]instanceof String?arguments[0]=e(arguments[0]):"object"==typeof arguments[0]&&Object.keys(arguments[0]).forEach((t=>{delete Object.assign(arguments[0],{[e(t)]:arguments[0][t]})[t]}))}return t.apply(this,arguments),this},e.allJQueries.push(n)}t=n}})}async _triggerDOMContentLoaded(){this.domReadyFired=!0,await this._requestAnimFrame(),document.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this._requestAnimFrame(),window.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this._requestAnimFrame(),document.dispatchEvent(new Event("rocket-readystatechange")),await this._requestAnimFrame(),document.rocketonreadystatechange&&document.rocketonreadystatechange()}async _triggerWindowLoad(){await this._requestAnimFrame(),window.dispatchEvent(new Event("rocket-load")),await this._requestAnimFrame(),window.rocketonload&&window.rocketonload(),await this._requestAnimFrame(),this.allJQueries.forEach((e=>e(window).trigger("rocket-jquery-load"))),window.dispatchEvent(new Event("rocket-pageshow")),await this._requestAnimFrame(),window.rocketonpageshow&&window.rocketonpageshow()}_handleDocumentWrite(){const e=new Map;document.write=document.writeln=function(t){const n=document.currentScript,i=document.createRange(),r=n.parentElement;let a=e.get(n);void 0===a&&(a=n.nextSibling,e.set(n,a));const o=document.createDocumentFragment();i.setStart(o,0),o.appendChild(i.createContextualFragment(t)),r.insertBefore(o,a)}}async _requestAnimFrame(){return new Promise((e=>requestAnimationFrame(e)))}static run(){const e=new RocketLazyLoadScripts(["keydown","mousemove","touchmove","touchstart","touchend","touchcancel","touchforcechange","wheel"]);e._addUserInteractionListener(e)}}RocketLazyLoadScripts.run();
+</script>
+	<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<title>Documentation &#8211; ZipPNG</title>
+<meta name="robots" content="max-image-preview:large">
+<link rel="dns-prefetch" href="//apis.google.com">
+<link rel="dns-prefetch" href="//fonts.gstatic.com">
+<link rel="dns-prefetch" href="//q.zippng.com">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="dns-prefetch" href="//formspree.io">
+<link rel="dns-prefetch" href="//www.googletagmanager.com">
+<link href="https://fonts.gstatic.com/" crossorigin rel="preconnect">
+<link href="https://q.zippng.com/" rel="preconnect">
+<link rel="alternate" type="application/rss+xml" title="ZipPNG &raquo; Feed" href="https://www.zippng.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="ZipPNG &raquo; Comments Feed" href="https://www.zippng.com/comments/feed/">
+<style type="text/css">img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}</style>
+	<link rel="stylesheet" id="wp-block-library-css" href="https://www.zippng.com/wp-includes/css/dist/block-library/style.min.css?ver=5.7.2" type="text/css" media="all">
+<link rel="stylesheet" id="2df2ef6d3-css" href="https://www.zippng.com/wp-content/uploads/essential-addons-elementor/734e5f942.min.css?ver=1625457148" type="text/css" media="all">
+<link rel="stylesheet" id="hello-elementor-css" href="https://www.zippng.com/wp-content/themes/hello-elementor/style.min.css?ver=2.4.0" type="text/css" media="all">
+<link rel="stylesheet" id="hello-elementor-theme-style-css" href="https://www.zippng.com/wp-content/themes/hello-elementor/theme.min.css?ver=2.4.0" type="text/css" media="all">
+<link rel="stylesheet" id="elementor-animations-css" href="https://www.zippng.com/wp-content/plugins/elementor/assets/lib/animations/animations.min.css?ver=3.2.5" type="text/css" media="all">
+<link rel="stylesheet" id="elementor-frontend-css" href="https://www.zippng.com/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=3.2.5" type="text/css" media="all">
+<style id="elementor-frontend-inline-css" type="text/css">@font-face{font-family:eicons;src:url(https://www.zippng.com/wp-content/plugins/elementor/assets/lib/eicons/fonts/eicons.eot?5.10.0);src:url(https://www.zippng.com/wp-content/plugins/elementor/assets/lib/eicons/fonts/eicons.eot?5.10.0#iefix) format("embedded-opentype"),url(https://www.zippng.com/wp-content/plugins/elementor/assets/lib/eicons/fonts/eicons.woff2?5.10.0) format("woff2"),url(https://www.zippng.com/wp-content/plugins/elementor/assets/lib/eicons/fonts/eicons.woff?5.10.0) format("woff"),url(https://www.zippng.com/wp-content/plugins/elementor/assets/lib/eicons/fonts/eicons.ttf?5.10.0) format("truetype"),url(https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/plugins/elementor/assets/lib/eicons/fonts/eicons.svg?5.10.0#eicon) format("svg");font-weight:400;font-style:normal}</style>
+<link rel="stylesheet" id="elementor-post-8-css" href="https://www.zippng.com/wp-content/uploads/elementor/css/post-8.css?ver=1625141116" type="text/css" media="all">
+<link rel="stylesheet" id="elementor-pro-css" href="https://www.zippng.com/wp-content/plugins/elementor-pro/assets/css/frontend.min.css?ver=3.3.1" type="text/css" media="all">
+<link rel="stylesheet" id="elementor-global-css" href="https://www.zippng.com/wp-content/uploads/elementor/css/global.css?ver=1625141119" type="text/css" media="all">
+<link rel="stylesheet" id="elementor-post-194-css" href="https://www.zippng.com/wp-content/uploads/elementor/css/post-194.css?ver=1625141124" type="text/css" media="all">
+<link rel="stylesheet" id="elementor-post-23-css" href="https://www.zippng.com/wp-content/uploads/elementor/css/post-23.css?ver=1625141120" type="text/css" media="all">
+<link rel="stylesheet" id="elementor-post-190-css" href="https://www.zippng.com/wp-content/uploads/elementor/css/post-190.css?ver=1625141120" type="text/css" media="all">
+<link rel="stylesheet" id="google-fonts-1-css" href="https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto+Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CMontserrat%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&#038;display=swap&#038;ver=5.7.2" type="text/css" media="all">
+<link rel="stylesheet" id="elementor-icons-shared-0-css" href="https://www.zippng.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css?ver=5.15.1" type="text/css" media="all">
+<link rel="stylesheet" id="elementor-icons-fa-solid-css" href="https://www.zippng.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css?ver=5.15.1" type="text/css" media="all">
+<script type="text/javascript" src="https://www.zippng.com/wp-includes/js/jquery/jquery.min.js?ver=3.5.1" id="jquery-core-js" defer></script>
+<script type="text/javascript" src="https://www.zippng.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2" id="jquery-migrate-js" defer></script>
+<link rel="https://api.w.org/" href="https://www.zippng.com/wp-json/">
+<link rel="alternate" type="application/json" href="https://www.zippng.com/wp-json/wp/v2/pages/194">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.zippng.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.zippng.com/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 5.7.2">
+<link rel="canonical" href="https://www.zippng.com/documentation/">
+<link rel="shortlink" href="https://www.zippng.com/?p=194">
+<link rel="icon" href="https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/cropped-zipimg-icon-32x32.png" sizes="32x32">
+<link rel="icon" href="https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/cropped-zipimg-icon-192x192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/cropped-zipimg-icon-180x180.png">
+<meta name="msapplication-TileImage" content="https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/cropped-zipimg-icon-270x270.png">
+<noscript><style id="rocket-lazyload-nojs-css">.rll-youtube-player, [data-lazy-src]{display:none !important;}</style></noscript>
+</head>
+<body class="page-template page-template-elementor_header_footer page page-id-194 wp-custom-logo elementor-default elementor-template-full-width elementor-kit-8 elementor-page elementor-page-194">
+
+		<div data-elementor-type="header" data-elementor-id="23" class="elementor elementor-23 elementor-location-header" data-elementor-settings="[]">
+		<div class="elementor-section-wrap">
+					<header data-particle_enable="false" data-particle-mobile-disabled="false" class="elementor-section elementor-top-section elementor-element elementor-element-45521ee7 elementor-section-content-middle elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="45521ee7" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-no">
+					<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-22edbf1b" data-id="22edbf1b" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+								<div class="elementor-element elementor-element-4c4d535 elementor-widget elementor-widget-theme-site-logo elementor-widget-image" data-id="4c4d535" data-element_type="widget" data-widget_type="theme-site-logo.default">
+				<div class="elementor-widget-container">
+																<a href="https://www.zippng.com/">
+							<img width="235" height="50" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20235%2050'%3E%3C/svg%3E" class="attachment-full size-full" alt="logo zippng" data-lazy-src="https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/zippng-1.png"><noscript><img width="235" height="50" src="https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/zippng-1.png" class="attachment-full size-full" alt="logo zippng"></noscript>								</a>
+															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-3fa55a4" data-id="3fa55a4" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+								<div class="elementor-element elementor-element-7171d342 elementor-nav-menu__align-right elementor-nav-menu--stretch elementor-nav-menu--dropdown-tablet elementor-nav-menu__text-align-aside elementor-nav-menu--toggle elementor-nav-menu--burger elementor-widget elementor-widget-nav-menu" data-id="7171d342" data-element_type="widget" data-settings="{&quot;full_width&quot;:&quot;stretch&quot;,&quot;layout&quot;:&quot;horizontal&quot;,&quot;submenu_icon&quot;:{&quot;value&quot;:&quot;fas fa-caret-down&quot;,&quot;library&quot;:&quot;fa-solid&quot;},&quot;toggle&quot;:&quot;burger&quot;}" data-widget_type="nav-menu.default">
+				<div class="elementor-widget-container">
+						<nav migration_allowed="1" migrated="0" role="navigation" class="elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-horizontal e--pointer-overline e--animation-fade"><ul id="menu-1-7171d342" class="elementor-nav-menu">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-193"><a href="https://www.zippng.com/" class="elementor-item">Home</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-194 current_page_item menu-item-199"><a href="https://www.zippng.com/documentation/" aria-current="page" class="elementor-item elementor-item-active">Documentation</a></li>
+</ul></nav>
+					<div class="elementor-menu-toggle" role="button" tabindex="0" aria-label="Menu Toggle" aria-expanded="false">
+			<i class="eicon-menu-bar" aria-hidden="true" role="presentation"></i>
+			<span class="elementor-screen-only">Menu</span>
+		</div>
+			<nav class="elementor-nav-menu--dropdown elementor-nav-menu__container" role="navigation" aria-hidden="true"><ul id="menu-2-7171d342" class="elementor-nav-menu">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-193"><a href="https://www.zippng.com/" class="elementor-item" tabindex="-1">Home</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-194 current_page_item menu-item-199"><a href="https://www.zippng.com/documentation/" aria-current="page" class="elementor-item elementor-item-active" tabindex="-1">Documentation</a></li>
+</ul></nav>
+				</div>
+				</div>
+					</div>
+		</div>
+							</div>
+		</header>
+				</div>
+		</div>
+				<div data-elementor-type="wp-page" data-elementor-id="194" class="elementor elementor-194" data-elementor-settings="[]">
+							<div class="elementor-section-wrap">
+							<section data-particle_enable="false" data-particle-mobile-disabled="false" class="elementor-section elementor-top-section elementor-element elementor-element-91ec0ca elementor-section-height-min-height elementor-section-boxed elementor-section-height-default elementor-section-items-middle" data-id="91ec0ca" data-element_type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-0d63ae2" data-id="0d63ae2" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+								<div class="elementor-element elementor-element-7a1fe79 elementor-widget elementor-widget-theme-page-title elementor-page-title elementor-widget-heading" data-id="7a1fe79" data-element_type="widget" data-widget_type="theme-page-title.default">
+				<div class="elementor-widget-container">
+			<h1 class="elementor-heading-title elementor-size-default">Documentation</h1>		</div>
+				</div>
+					</div>
+		</div>
+							</div>
+		</section>
+				<section data-particle_enable="false" data-particle-mobile-disabled="false" class="elementor-section elementor-top-section elementor-element elementor-element-2e50fdf elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="2e50fdf" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-5998230" data-id="5998230" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+								<div class="elementor-element elementor-element-2b2210b elementor-widget elementor-widget-heading" data-id="2b2210b" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+			<h2 class="elementor-heading-title elementor-size-default">Getting Started with ZIP PNG
+</h2>		</div>
+				</div>
+				<div class="elementor-element elementor-element-05ef02e elementor-widget elementor-widget-text-editor" data-id="05ef02e" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p>Using ZIP PNG will reduce the image payload significantly and increase the website’s performance.</p>
+<p>The easiest way to understand ZIP PNG is to see it as an intelligent Content Delivery Network (CDN). The built-in intelligence automatically (or explicitly) optimizes images for the requesting device or browser. In most cases the data traffic generated by images will be reduced up to 90 percent compared to the original images.</p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-cd0c58f elementor-widget elementor-widget-heading" data-id="cd0c58f" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+			<h2 class="elementor-heading-title elementor-size-default">Basic Images Transformations</h2>		</div>
+				</div>
+				<div class="elementor-element elementor-element-ee4730b elementor-widget elementor-widget-text-editor" data-id="ee4730b" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p>Go to our server URL <strong>https://q.zippng.com</strong> then append <code>/upload/</code>; after that you can pass these options below, followed by an underscore and a value <code>q_75</code>. Options are separated by coma (configurable to other separator).</p>
+<p>After the options put the source of your image, it can be relative to your server or absolute: <code>/https://yourwebsite.com/images/pretty-dog.jpg</code></p>
+<p>So to get a pretty dog a with <strong>75% compression</strong>, you would write: <code>https://q.zippng.com/upload/q_75/https://yourwebsite.com/images/pretty-dog.jpg</code></p>
+<p><strong>example:</strong> <code>https://q.zippng.com/upload/q_75/https://wwww.zippng.com/wp-content/uploads/2019/11/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-883e32c elementor-widget elementor-widget-text-editor" data-id="883e32c" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-full wp-image-238" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20500%20333'%3E%3C/svg%3E" alt="pretty dog" width="500" height="333" data-lazy-src="https://q.zippng.com/upload/q_75/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-full wp-image-238" src="https://q.zippng.com/upload/q_75/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" alt="pretty dog" width="500" height="333"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-735c5d9 elementor-widget elementor-widget-heading" data-id="735c5d9" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+			<h2 class="elementor-heading-title elementor-size-default">WordPress Integrations (CDN Enabler Plugin)</h2>		</div>
+				</div>
+				<div class="elementor-element elementor-element-74c5f8e elementor-widget elementor-widget-text-editor" data-id="74c5f8e" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p>Enabling ZIP PNG for your WordPress image content is very simple. You can use plugin such as CDN Enabler (free).</p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-786d0ef elementor-widget elementor-widget-image" data-id="786d0ef" data-element_type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img width="800" height="663" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20800%20663'%3E%3C/svg%3E" class="attachment-large size-large" alt="" data-lazy-srcset="https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/cdn-enabler-zippng.png 917w, https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/cdn-enabler-zippng-300x249.png 300w, https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/cdn-enabler-zippng-768x637.png 768w" data-lazy-sizes="(max-width: 800px) 100vw, 800px" data-lazy-src="https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/cdn-enabler-zippng.png"><noscript><img width="800" height="663" src="https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/cdn-enabler-zippng.png" class="attachment-large size-large" alt="" srcset="https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/cdn-enabler-zippng.png 917w, https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/cdn-enabler-zippng-300x249.png 300w, https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/cdn-enabler-zippng-768x637.png 768w" sizes="(max-width: 800px) 100vw, 800px"></noscript>															</div>
+				</div>
+				<div class="elementor-element elementor-element-e9a9291 elementor-widget elementor-widget-text-editor" data-id="e9a9291" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><strong>CDN URL:</strong> Insert our endpoint URL and your URL, for example <code>https://q.zippng.com/upload/q_75/https://your-website.com</code></p>
+<p><strong>Included Directories:</strong> <code>wp-content</code></p>
+<p><strong>Exclusions:</strong> <code>.php,.js,.css,.eot,.woff,.woff2,.ttf,.svg, .zip,.ico, .mp4, .mp3</code></p>
+<p><strong>Relative Path:</strong> check</p>
+<p><strong>CDN HTTPS:</strong> check</p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-7c7d498 elementor-widget elementor-widget-heading" data-id="7c7d498" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+			<h2 class="elementor-heading-title elementor-size-default">WordPress Integrations (WP Rocket Plugin)</h2>		</div>
+				</div>
+				<div class="elementor-element elementor-element-214bfa6 elementor-widget elementor-widget-text-editor" data-id="214bfa6" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p>WP Rocket is the most powerful caching plugin in the world. Use it to improve the speed of your WordPress site, SEO rankings and conversions.</p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-79e0ed0 elementor-widget elementor-widget-image" data-id="79e0ed0" data-element_type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img width="1183" height="600" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201183%20600'%3E%3C/svg%3E" class="attachment-full size-full" alt="" data-lazy-srcset="https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/wp-rocket-integration.png 1183w, https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/wp-rocket-integration-300x152.png 300w, https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/wp-rocket-integration-1024x519.png 1024w, https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/wp-rocket-integration-768x390.png 768w" data-lazy-sizes="(max-width: 1183px) 100vw, 1183px" data-lazy-src="https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/wp-rocket-integration.png"><noscript><img width="1183" height="600" src="https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/wp-rocket-integration.png" class="attachment-full size-full" alt="" srcset="https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/wp-rocket-integration.png 1183w, https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/wp-rocket-integration-300x152.png 300w, https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/wp-rocket-integration-1024x519.png 1024w, https://q.zippng.com/upload/q_75/https://www.zippng.com/wp-content/uploads/2021/01/wp-rocket-integration-768x390.png 768w" sizes="(max-width: 1183px) 100vw, 1183px"></noscript>															</div>
+				</div>
+				<div class="elementor-element elementor-element-4500455 elementor-widget elementor-widget-heading" data-id="4500455" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+			<h2 class="elementor-heading-title elementor-size-default">Image Manipulation Options</h2>		</div>
+				</div>
+				<div class="elementor-element elementor-element-3071eca elementor-widget elementor-widget-text-editor" data-id="3071eca" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>w</code> : <strong>width</strong>
+</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-feee5a4 elementor-widget elementor-widget-text-editor" data-id="feee5a4" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>int</code></p>
+<p><em>Default:</em> null</p>
+<p><em>Description:</em> Sets the target width of the image. If not set, width will be calculated in order to keep aspect ratio.</p>
+<p><strong>example:</strong> <strong><code>w_300</code></strong></p>
+<p><code>w_300</code> : <code>https://q.zippng.com/upload/w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-909160a elementor-widget elementor-widget-text-editor" data-id="909160a" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20200'%3E%3C/svg%3E" width="300" height="200" data-lazy-src="https://q.zippng.com/upload/w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="300" height="200"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-301dde4 elementor-widget elementor-widget-text-editor" data-id="301dde4" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>h</code> : <strong>height</strong>
+</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-1077d4f elementor-widget elementor-widget-text-editor" data-id="1077d4f" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>int</code></p>
+<p><em>Default:</em> null</p>
+<p><em>Description:</em> Sets the target height of the image. If not set, height will be calculated in order to keep aspect ratio.</p>
+<p><strong>example:</strong> <strong><code>h_250</code></strong></p>
+<p><code>h_250</code> : <code>https://q.zippng.com/upload/h_250/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-c34283c elementor-widget elementor-widget-text-editor" data-id="c34283c" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20375%20250'%3E%3C/svg%3E" width="375" height="250" data-lazy-src="https://q.zippng.com/upload/h_250/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/h_250/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="375" height="250"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-fa8ea45 elementor-widget elementor-widget-text-editor" data-id="fa8ea45" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>Using width AND height</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-152c028 elementor-widget elementor-widget-text-editor" data-id="152c028" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><strong>example:</strong> <strong><code>h_300,w_300</code></strong></p>
+<p>By default setting width and height together, works like defining a rectangle that will define a <strong>max-width</strong> and <strong>max-height</strong> and the image will scale proportionally to fit that area without cropping.</p>
+<p>By default; width, height, or both will <strong>not scale up</strong> an image that is smaller than the defined dimensions.</p>
+<p><code>h_300,w_300</code> : <code>https://q.zippng.com/upload/h_300,w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-1d8d937 elementor-widget elementor-widget-text-editor" data-id="1d8d937" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20200'%3E%3C/svg%3E" width="300" height="200" data-lazy-src="https://q.zippng.com/upload/h_300,w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/h_300,w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="300" height="200"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-180400d elementor-widget elementor-widget-text-editor" data-id="180400d" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>c</code> : <strong>crop</strong>
+</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-79f06d8 elementor-widget elementor-widget-text-editor" data-id="79f06d8" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>bool</code></p>
+<p><em>Default:</em> false</p>
+<p><em>Description:</em> When both width and height are set, this allows the image to be cropped so it fills the width x height area.</p>
+<p><strong>example:</strong> <code>c_1</code></p>
+<p><code>c_1,h_300,w_300</code> : <code>https://q.zippng.com/upload/c_1,h_300,w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-19ad9ad elementor-widget elementor-widget-text-editor" data-id="19ad9ad" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" width="300" height="300" data-lazy-src="https://q.zippng.com/upload/c_1,h_300,w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/c_1,h_300,w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="300" height="300"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-196d8a7 elementor-widget elementor-widget-text-editor" data-id="196d8a7" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>smc</code> : <strong>smart crop</strong>
+</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-09a9f9e elementor-widget elementor-widget-text-editor" data-id="09a9f9e" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>bool</code></p>
+<p><em>Default:</em> false</p>
+<p><em>Description:</em> Smart cropping feature, uses python script to determine coordinates.</p>
+<p><strong>example:</strong> <code>smc_1</code></p>
+<p><code>smc_1,w_300</code> : <code>https://q.zippng.com/upload/smc_1,w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-c7245f3 elementor-widget elementor-widget-text-editor" data-id="c7245f3" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20185%20186'%3E%3C/svg%3E" width="185" height="186" data-lazy-src="https://q.zippng.com/upload/smc_1,w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/smc_1,w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="185" height="186"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-645317b elementor-widget elementor-widget-text-editor" data-id="645317b" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>g</code> : gravity</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-658595a elementor-widget elementor-widget-text-editor" data-id="658595a" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>string</code></p>
+<p><em>Default:</em> <code>center</code></p>
+<p><em>Description:</em> When crop is applied, changing the gravity will define which part of the image is kept inside the crop area. The basic options are: <code>NorthWest</code>, <code>North</code>, <code>NorthEast</code>, <code>West</code>, <code>Center</code>, <code>East</code>, <code>SouthWest</code>, <code>South</code>, <code>SouthEast</code></p>
+<p><strong>example:</strong> <code>g_West</code></p>
+<p><code>g_West</code> : <code>https://q.zippng.com/upload/c_1,g_West,h_300,w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-4ce3127 elementor-widget elementor-widget-text-editor" data-id="4ce3127" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" width="300" height="300" data-lazy-src="https://q.zippng.com/upload/c_1,g_West,h_300,w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/c_1,g_West,h_300,w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="300" height="300"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-f03936d elementor-widget elementor-widget-text-editor" data-id="f03936d" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>r</code> : rotate</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-3233c45 elementor-widget elementor-widget-text-editor" data-id="3233c45" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>string</code></p>
+<p><em>Default:</em> null</p>
+<p><em>Description:</em> Apply image rotation (using shear operations) to the image.</p>
+<p><strong>example:</strong> <code>r_90</code>, <code>r_-180</code>, &#8230;.</p>
+<p><code>r_45</code> : <code>https://q.zippng.com/upload/r_45,h_300,w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-dc9d4fc elementor-widget elementor-widget-text-editor" data-id="dc9d4fc" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20356%20356'%3E%3C/svg%3E" width="356" height="356" data-lazy-src="https://q.zippng.com/upload/r_45,h_300,w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/r_45,h_300,w_300/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="356" height="356"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-91454cf elementor-widget elementor-widget-text-editor" data-id="91454cf" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>o</code> : output</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-3df6746 elementor-widget elementor-widget-text-editor" data-id="3df6746" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>string</code></p>
+<p><em>Default:</em> auto</p>
+<p><em>Description:</em> Output format requested, for example you can force the output as jpeg file in case of source file is png. The default auto will try to output the best format for the requesting browser, falling back to the same format as the source image or finally with a fallback to <strong>jpg</strong>.</p>
+<p>If <code>input</code> is passed, no “optimal” format will be attempted. ZipPNG will try to respond with the source format or fallback to <code>jpg</code>.</p>
+<p><strong>example:</strong> <code>o_auto</code>,<code>o_input</code>,<code>o_png</code>,<code>o_webp</code>,<code>o_jpeg</code>,<code>o_jpg</code></p>
+<p><code>o_auto</code> : <code>https://q.zippng.com/upload/o_auto/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-423bea6 elementor-widget elementor-widget-text-editor" data-id="423bea6" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20500%20333'%3E%3C/svg%3E" width="500" height="333" data-lazy-src="https://q.zippng.com/upload/o_auto/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/o_auto/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="500" height="333"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-f16b7b4 elementor-widget elementor-widget-text-editor" data-id="f16b7b4" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>q</code> : quality</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-1a5f693 elementor-widget elementor-widget-text-editor" data-id="1a5f693" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>int</code> (0-100)</p>
+<p><em>Default:</em> 90</p>
+<p><em>Description:</em> Sets the compression level for the output image. Your best results will be between <strong>70</strong> and <strong>95</strong>.</p>
+<p><strong>example:</strong> <code>q_95</code>, <code>q_75</code>, &#8230;</p>
+<p><code>q_75</code> : <code>https://q.zippng.com/upload/q_75/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-807ed4b elementor-widget elementor-widget-text-editor" data-id="807ed4b" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20500%20333'%3E%3C/svg%3E" width="500" height="333" data-lazy-src="https://q.zippng.com/upload/q_75/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/q_75/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="500" height="333"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-65a4cc2 elementor-widget elementor-widget-text-editor" data-id="65a4cc2" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>webpl</code> : webp-loseless</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-674095f elementor-widget elementor-widget-text-editor" data-id="674095f" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>int</code></p>
+<p><em>Default:</em> 0</p>
+<p><em>Description:</em> If output is set to webp, it will default to lossy compression, but if you want lossless webp encoding you have to set it to 1.</p>
+<p><strong>example:</strong> <code>webpl_1</code></p>
+<p><code>webpl_1</code> : <code>https://q.zippng.com/upload/q_75,webpl_1/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-9265902 elementor-widget elementor-widget-text-editor" data-id="9265902" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20500%20333'%3E%3C/svg%3E" width="500" height="333" data-lazy-src="https://q.zippng.com/upload/q_75,webpl_1/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/q_75,webpl_1/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="500" height="333"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-43d68c6 elementor-widget elementor-widget-text-editor" data-id="43d68c6" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>rf</code> : refresh</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-18cc5cf elementor-widget elementor-widget-text-editor" data-id="18cc5cf" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><em>Default:</em> false</p>
+<p><em>Description:</em> When this parameter is 1, it will force a re-request of the original image and run it through the transformations and compression again. It will delete the local cached copy.</p>
+<p>The nginx server will send headers to prevent caching of this request.</p>
+<p>It will also send headers with the command done on the image + info returned by the command identity from Imagemagik.</p>
+<p><strong>example:</strong> <code>rf_1</code></p>
+<p><code>rf_1</code> : <code>https://q.zippng.com/upload/q_75,rf_1/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-9b873fb elementor-widget elementor-widget-text-editor" data-id="9b873fb" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20500%20333'%3E%3C/svg%3E" width="500" height="333" data-lazy-src="https://q.zippng.com/upload/q_75,rf_1/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/q_75,rf_1/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="500" height="333"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-4c995a3 elementor-widget elementor-widget-text-editor" data-id="4c995a3" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>bg</code> : background</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-583b67e elementor-widget elementor-widget-text-editor" data-id="583b67e" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>color</code> (multiple formats)</p>
+<p><em>Default:</em> null</p>
+<p><em>Description:</em> Sets the background of the canvas for the cases where padding is added to the images. It supports hex, css color names, rgb. Only css color names are supported without quotation marks. For the hex code, the hash <code>#</code> character should be replaced by <code>%23</code>.</p>
+<p><strong>example:</strong> <code>bg_yellow</code>, <code>bg_%23ff4455</code>, <code>bg_rgb(255,120,100)</code>, &#8230;</p>
+<p><code>bg_yellow</code> : <code>https://q.zippng.com/upload/q_75,bg_yellow,r_45/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-09e0818 elementor-widget elementor-widget-text-editor" data-id="09e0818" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20592%20591'%3E%3C/svg%3E" width="592" height="591" data-lazy-src="https://q.zippng.com/upload/q_75,bg_yellow,r_45/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/q_75,bg_yellow,r_45/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="592" height="591"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-0df0e0b elementor-widget elementor-widget-text-editor" data-id="0df0e0b" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>st</code> : strip</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-8681b3e elementor-widget elementor-widget-text-editor" data-id="8681b3e" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>int</code></p>
+<p><em>Default:</em> 1</p>
+<p><em>Description:</em> removes exif data and additional color profile. Leaving your image with the default sRGB color profile.</p>
+<p><strong>example:</strong> <code>st_1</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-c0b160d elementor-widget elementor-widget-text-editor" data-id="c0b160d" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>rz</code> : resize</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-1eb0078 elementor-widget elementor-widget-text-editor" data-id="1eb0078" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>int</code></p>
+<p><em>Default:</em> null</p>
+<p><em>Description:</em> The alternative resizing method to -thumbnail.</p>
+<p><strong>example:</strong> <code>rz_1</code></p>
+<p><code>rz_1</code> : <code>https://q.zippng.com/upload/rz_1/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-67dc0a0 elementor-widget elementor-widget-text-editor" data-id="67dc0a0" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20500%20333'%3E%3C/svg%3E" width="500" height="333" data-lazy-src="https://q.zippng.com/upload/rz_1/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/rz_1/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="500" height="333"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-5044575 elementor-widget elementor-widget-text-editor" data-id="5044575" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>moz</code> : mozjpeg</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-8ba9cf5 elementor-widget elementor-widget-text-editor" data-id="8ba9cf5" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>int</code></p>
+<p><em>Default:</em> 1</p>
+<p><em>Description:</em> Use moz-jpeg compression library, if <code>0</code> it fallsback to the default ImageMagick compression algorithm.</p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-24a6fff elementor-widget elementor-widget-text-editor" data-id="24a6fff" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>unsh</code> : unsharp</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-a069e32 elementor-widget elementor-widget-text-editor" data-id="a069e32" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>{radius}x{sigma}[+gain][+threshold]</code></p>
+<p><em>Default:</em> null</p>
+<p><em>Description:</em> Sharpens an image (despite the unfortunate naming). It basically sharpens via subtracting a blurred, low contrast, version of the image to the image itself. For more details check <a href="http://www.imagemagick.org/script/command-line-options.php#unsharp" target="_blank" rel="noopener">Imagemagick docs</a>.</p>
+<p><strong>example 1:</strong> <code>unsh_0x6</code><br><strong>example 2:</strong> <code>unsh_0.25x0.25+8+0.065</code></p>
+<p><code>unsh_0x6</code> : <code>https://q.zippng.com/upload/unsh_0x6/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-d0b4377 elementor-widget elementor-widget-text-editor" data-id="d0b4377" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20500%20333'%3E%3C/svg%3E" width="500" height="333" data-lazy-src="https://q.zippng.com/upload/unsh_0x6/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/unsh_0x6/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="500" height="333"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-0232bb9 elementor-widget elementor-widget-text-editor" data-id="0232bb9" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>sh</code> : sharpen</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-f934ca9 elementor-widget elementor-widget-text-editor" data-id="f934ca9" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>{radius}x{sigma}</code></p>
+<p><em>Default:</em> null</p>
+<p><em>Description:</em> Use a Gaussian operator of the given radius and standard deviation (sigma). For more details check <a href="http://www.imagemagick.org/script/command-line-options.php#sharpen" target="_blank" rel="noopener">Imagemagick docs</a>.</p>
+<p><strong>example 1:</strong> <code>sh_0x6</code><br><strong>example 2:</strong> <code>sh_0.25x0.25+8+0.065</code></p>
+<p><code>sh_0x6</code> : <code>https://q.zippng.com/upload/sh_0x6/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-b49221f elementor-widget elementor-widget-text-editor" data-id="b49221f" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20500%20333'%3E%3C/svg%3E" width="500" height="333" data-lazy-src="https://q.zippng.com/upload/sh_0x6/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/sh_0x6/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="500" height="333"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-b0f38b3 elementor-widget elementor-widget-text-editor" data-id="b0f38b3" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>blr</code> : blur</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-da27cb6 elementor-widget elementor-widget-text-editor" data-id="da27cb6" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>{radius}x{sigma}</code></p>
+<p><em>Default:</em> null</p>
+<p><em>Description:</em> Apply Blur on a image. For more details check <a href="http://www.imagemagick.org/script/command-line-options.php#blur" target="_blank" rel="noopener">Imagemagick docs</a>.</p>
+<p><strong>example 1:</strong> <code>blr_2</code><br><strong>example 2:</strong> <code>blr_1x2</code></p>
+<p><code>blr_2</code> : <code>https://q.zippng.com/upload/blr_2/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-63bf808 elementor-widget elementor-widget-text-editor" data-id="63bf808" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20500%20333'%3E%3C/svg%3E" width="500" height="333" data-lazy-src="https://q.zippng.com/upload/blr_2/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/blr_2/https://wwww.zippng.com/wp-content/uploads/2021/01/pretty-dog.jpg" width="500" height="333"></noscript>						</div>
+				</div>
+				<div class="elementor-element elementor-element-d59d6eb elementor-widget elementor-widget-text-editor" data-id="d59d6eb" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>f</code> : filter</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-6f9d3a3 elementor-widget elementor-widget-text-editor" data-id="6f9d3a3" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>string</code></p>
+<p><em>Default:</em> Lanczos</p>
+<p><em>Description:</em> Resizing algorithm, Triangle is a smoother lighter option.</p>
+<p><strong>example:</strong> <code>f_Triangle</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-a359ce5 elementor-widget elementor-widget-text-editor" data-id="a359ce5" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>sc</code> : scale</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-db59092 elementor-widget elementor-widget-text-editor" data-id="db59092" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><em>Default:</em> Null</p>
+<p><em>Description: </em>The “-scale” resize operator is a simplified, faster form of the resize command. Useful for fast exact scaling of pixels.</p>
+<p><strong>example:</strong> <code>sc_1</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-2b3c544 elementor-widget elementor-widget-heading" data-id="2b3c544" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+			<h2 class="elementor-heading-title elementor-size-default">PDF Options</h2>		</div>
+				</div>
+				<div class="elementor-element elementor-element-8b01562 elementor-widget elementor-widget-text-editor" data-id="8b01562" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>pg</code> : page number</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-9277a7f elementor-widget elementor-widget-text-editor" data-id="9277a7f" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>int</code></p>
+<p><em>Default:</em> 1</p>
+<p><em>Description:</em> Sets the target page of the PDF. If not set, the default is page 1.</p>
+<p><strong>example:</strong> <code>pg_3</code></p>
+<p><code>pg_3</code> : <code>https://q.zippng.com/upload/pg_3/https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-c08ba44 elementor-widget elementor-widget-text-editor" data-id="c08ba44" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><a href="https://q.zippng.com/upload/pg_3/https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf" target="_blank" rel="noopener"><img class="alignnone" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20612%20792'%3E%3C/svg%3E" alt="pdf options" width="612" height="792" data-lazy-src="https://q.zippng.com/upload/pg_3/https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf"><noscript><img class="alignnone" src="https://q.zippng.com/upload/pg_3/https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf" alt="pdf options" width="612" height="792"></noscript></a></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-e29865d elementor-widget elementor-widget-heading" data-id="e29865d" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+			<h2 class="elementor-heading-title elementor-size-default">Video Options</h2>		</div>
+				</div>
+				<div class="elementor-element elementor-element-0cc9b26 elementor-widget elementor-widget-text-editor" data-id="0cc9b26" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<h4>
+<code>tm</code> : time</h4>						</div>
+				</div>
+				<div class="elementor-element elementor-element-0aaafac elementor-widget elementor-widget-text-editor" data-id="0aaafac" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><code>string</code></p>
+<p><em>Default:</em> 00:00:01</p>
+<p><em>Description:</em> Sets the frame capture time duration point in the video. If not set, the default is 1 second. The format is <code>HH:MM:SS</code> OR <code>SS</code>.</p>
+<p><strong>example:</strong> <code>tm_00:00:05</code></p>
+<p><code>tm_00:00:05</code> : <code>https://q.zippng.com/upload/tm_00:00:05/https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_640_3MG.mp4</code></p>						</div>
+				</div>
+				<div class="elementor-element elementor-element-605d1ff elementor-widget elementor-widget-text-editor" data-id="605d1ff" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+								<p><img class="alignnone size-medium" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20640%20360'%3E%3C/svg%3E" width="640" height="360" data-lazy-src="https://q.zippng.com/upload/tm_00:00:05/https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_640_3MG.mp4"><noscript><img class="alignnone size-medium" src="https://q.zippng.com/upload/tm_00:00:05/https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_640_3MG.mp4" width="640" height="360"></noscript></p>						</div>
+				</div>
+					</div>
+		</div>
+							</div>
+		</section>
+						</div>
+					</div>
+				<div data-elementor-type="footer" data-elementor-id="190" class="elementor elementor-190 elementor-location-footer" data-elementor-settings="[]">
+		<div class="elementor-section-wrap">
+					<footer data-particle_enable="false" data-particle-mobile-disabled="false" class="elementor-section elementor-top-section elementor-element elementor-element-5ac5ae67 elementor-section-height-min-height elementor-section-content-middle elementor-section-boxed elementor-section-height-default elementor-section-items-middle" data-id="5ac5ae67" data-element_type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-46cf09e3" data-id="46cf09e3" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+								<div class="elementor-element elementor-element-67818ba4 elementor-widget elementor-widget-heading" data-id="67818ba4" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+			<p class="elementor-heading-title elementor-size-default"><a href="https://www.tataweb.net/" target="_blank">Made with ❤ by TataWeb.</a></p>		</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-4dfff5da" data-id="4dfff5da" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+								<div class="elementor-element elementor-element-0e79312 elementor-nav-menu__align-right elementor-nav-menu--dropdown-tablet elementor-nav-menu__text-align-aside elementor-nav-menu--toggle elementor-nav-menu--burger elementor-widget elementor-widget-nav-menu" data-id="0e79312" data-element_type="widget" data-settings="{&quot;layout&quot;:&quot;horizontal&quot;,&quot;submenu_icon&quot;:{&quot;value&quot;:&quot;fas fa-caret-down&quot;,&quot;library&quot;:&quot;fa-solid&quot;},&quot;toggle&quot;:&quot;burger&quot;}" data-widget_type="nav-menu.default">
+				<div class="elementor-widget-container">
+						<nav migration_allowed="1" migrated="0" role="navigation" class="elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-horizontal e--pointer-underline e--animation-fade"><ul id="menu-1-0e79312" class="elementor-nav-menu">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-446"><a href="https://www.zippng.com/privacy-policy/" class="elementor-item">Privacy Policy</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-201"><a href="https://www.zippng.com/terms-of-service/" class="elementor-item">Terms of Service</a></li>
+</ul></nav>
+					<div class="elementor-menu-toggle" role="button" tabindex="0" aria-label="Menu Toggle" aria-expanded="false">
+			<i class="eicon-menu-bar" aria-hidden="true" role="presentation"></i>
+			<span class="elementor-screen-only">Menu</span>
+		</div>
+			<nav class="elementor-nav-menu--dropdown elementor-nav-menu__container" role="navigation" aria-hidden="true"><ul id="menu-2-0e79312" class="elementor-nav-menu">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-446"><a href="https://www.zippng.com/privacy-policy/" class="elementor-item" tabindex="-1">Privacy Policy</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-201"><a href="https://www.zippng.com/terms-of-service/" class="elementor-item" tabindex="-1">Terms of Service</a></li>
+</ul></nav>
+				</div>
+				</div>
+					</div>
+		</div>
+							</div>
+		</footer>
+				</div>
+		</div>
+		
+<!-- See more examples of how to use Formbutton at formspree.io/formbutton/docs -->
+  <script type="rocketlazyloadscript" src="https://formspree.io/js/formbutton-v1.min.js" defer></script>
+  <script type="rocketlazyloadscript">
+    window.formbutton=window.formbutton||function(){(formbutton.q=formbutton.q||[]).push(arguments)};
+    formbutton("create", {action: "https://formspree.io/f/xgepdqzj"})
+
+  </script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script type="rocketlazyloadscript" async src="https://www.googletagmanager.com/gtag/js?id=UA-135584203-4"></script>
+<script type="rocketlazyloadscript">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-135584203-4');
+</script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://apis.google.com/js/platform.js?ver=1625457148" id="eael-google-api-js" defer></script>
+<script type="text/javascript" id="2df2ef6d3-js-extra">
+/* <![CDATA[ */
+var localize = {"ajaxurl":"https:\/\/www.zippng.com\/wp-admin\/admin-ajax.php","nonce":"9c4d935709","i18n":{"added":"Added ","compare":"Compare","loading":"Loading..."},"ParticleThemesData":{"default":"{\"particles\":{\"number\":{\"value\":160,\"density\":{\"enable\":true,\"value_area\":800}},\"color\":{\"value\":\"#ffffff\"},\"shape\":{\"type\":\"circle\",\"stroke\":{\"width\":0,\"color\":\"#000000\"},\"polygon\":{\"nb_sides\":5},\"image\":{\"src\":\"img\/github.svg\",\"width\":100,\"height\":100}},\"opacity\":{\"value\":0.5,\"random\":false,\"anim\":{\"enable\":false,\"speed\":1,\"opacity_min\":0.1,\"sync\":false}},\"size\":{\"value\":3,\"random\":true,\"anim\":{\"enable\":false,\"speed\":40,\"size_min\":0.1,\"sync\":false}},\"line_linked\":{\"enable\":true,\"distance\":150,\"color\":\"#ffffff\",\"opacity\":0.4,\"width\":1},\"move\":{\"enable\":true,\"speed\":6,\"direction\":\"none\",\"random\":false,\"straight\":false,\"out_mode\":\"out\",\"bounce\":false,\"attract\":{\"enable\":false,\"rotateX\":600,\"rotateY\":1200}}},\"interactivity\":{\"detect_on\":\"canvas\",\"events\":{\"onhover\":{\"enable\":true,\"mode\":\"repulse\"},\"onclick\":{\"enable\":true,\"mode\":\"push\"},\"resize\":true},\"modes\":{\"grab\":{\"distance\":400,\"line_linked\":{\"opacity\":1}},\"bubble\":{\"distance\":400,\"size\":40,\"duration\":2,\"opacity\":8,\"speed\":3},\"repulse\":{\"distance\":200,\"duration\":0.4},\"push\":{\"particles_nb\":4},\"remove\":{\"particles_nb\":2}}},\"retina_detect\":true}","nasa":"{\"particles\":{\"number\":{\"value\":250,\"density\":{\"enable\":true,\"value_area\":800}},\"color\":{\"value\":\"#ffffff\"},\"shape\":{\"type\":\"circle\",\"stroke\":{\"width\":0,\"color\":\"#000000\"},\"polygon\":{\"nb_sides\":5},\"image\":{\"src\":\"img\/github.svg\",\"width\":100,\"height\":100}},\"opacity\":{\"value\":1,\"random\":true,\"anim\":{\"enable\":true,\"speed\":1,\"opacity_min\":0,\"sync\":false}},\"size\":{\"value\":3,\"random\":true,\"anim\":{\"enable\":false,\"speed\":4,\"size_min\":0.3,\"sync\":false}},\"line_linked\":{\"enable\":false,\"distance\":150,\"color\":\"#ffffff\",\"opacity\":0.4,\"width\":1},\"move\":{\"enable\":true,\"speed\":1,\"direction\":\"none\",\"random\":true,\"straight\":false,\"out_mode\":\"out\",\"bounce\":false,\"attract\":{\"enable\":false,\"rotateX\":600,\"rotateY\":600}}},\"interactivity\":{\"detect_on\":\"canvas\",\"events\":{\"onhover\":{\"enable\":true,\"mode\":\"bubble\"},\"onclick\":{\"enable\":true,\"mode\":\"repulse\"},\"resize\":true},\"modes\":{\"grab\":{\"distance\":400,\"line_linked\":{\"opacity\":1}},\"bubble\":{\"distance\":250,\"size\":0,\"duration\":2,\"opacity\":0,\"speed\":3},\"repulse\":{\"distance\":400,\"duration\":0.4},\"push\":{\"particles_nb\":4},\"remove\":{\"particles_nb\":2}}},\"retina_detect\":true}","bubble":"{\"particles\":{\"number\":{\"value\":15,\"density\":{\"enable\":true,\"value_area\":800}},\"color\":{\"value\":\"#1b1e34\"},\"shape\":{\"type\":\"polygon\",\"stroke\":{\"width\":0,\"color\":\"#000\"},\"polygon\":{\"nb_sides\":6},\"image\":{\"src\":\"img\/github.svg\",\"width\":100,\"height\":100}},\"opacity\":{\"value\":0.3,\"random\":true,\"anim\":{\"enable\":false,\"speed\":1,\"opacity_min\":0.1,\"sync\":false}},\"size\":{\"value\":50,\"random\":false,\"anim\":{\"enable\":true,\"speed\":10,\"size_min\":40,\"sync\":false}},\"line_linked\":{\"enable\":false,\"distance\":200,\"color\":\"#ffffff\",\"opacity\":1,\"width\":2},\"move\":{\"enable\":true,\"speed\":8,\"direction\":\"none\",\"random\":false,\"straight\":false,\"out_mode\":\"out\",\"bounce\":false,\"attract\":{\"enable\":false,\"rotateX\":600,\"rotateY\":1200}}},\"interactivity\":{\"detect_on\":\"canvas\",\"events\":{\"onhover\":{\"enable\":false,\"mode\":\"grab\"},\"onclick\":{\"enable\":false,\"mode\":\"push\"},\"resize\":true},\"modes\":{\"grab\":{\"distance\":400,\"line_linked\":{\"opacity\":1}},\"bubble\":{\"distance\":400,\"size\":40,\"duration\":2,\"opacity\":8,\"speed\":3},\"repulse\":{\"distance\":200,\"duration\":0.4},\"push\":{\"particles_nb\":4},\"remove\":{\"particles_nb\":2}}},\"retina_detect\":true}","snow":"{\"particles\":{\"number\":{\"value\":450,\"density\":{\"enable\":true,\"value_area\":800}},\"color\":{\"value\":\"#fff\"},\"shape\":{\"type\":\"circle\",\"stroke\":{\"width\":0,\"color\":\"#000000\"},\"polygon\":{\"nb_sides\":5},\"image\":{\"src\":\"img\/github.svg\",\"width\":100,\"height\":100}},\"opacity\":{\"value\":0.5,\"random\":true,\"anim\":{\"enable\":false,\"speed\":1,\"opacity_min\":0.1,\"sync\":false}},\"size\":{\"value\":5,\"random\":true,\"anim\":{\"enable\":false,\"speed\":40,\"size_min\":0.1,\"sync\":false}},\"line_linked\":{\"enable\":false,\"distance\":500,\"color\":\"#ffffff\",\"opacity\":0.4,\"width\":2},\"move\":{\"enable\":true,\"speed\":6,\"direction\":\"bottom\",\"random\":false,\"straight\":false,\"out_mode\":\"out\",\"bounce\":false,\"attract\":{\"enable\":false,\"rotateX\":600,\"rotateY\":1200}}},\"interactivity\":{\"detect_on\":\"canvas\",\"events\":{\"onhover\":{\"enable\":true,\"mode\":\"bubble\"},\"onclick\":{\"enable\":true,\"mode\":\"repulse\"},\"resize\":true},\"modes\":{\"grab\":{\"distance\":400,\"line_linked\":{\"opacity\":0.5}},\"bubble\":{\"distance\":400,\"size\":4,\"duration\":0.3,\"opacity\":1,\"speed\":3},\"repulse\":{\"distance\":200,\"duration\":0.4},\"push\":{\"particles_nb\":4},\"remove\":{\"particles_nb\":2}}},\"retina_detect\":true}","nyan_cat":"{\"particles\":{\"number\":{\"value\":150,\"density\":{\"enable\":false,\"value_area\":800}},\"color\":{\"value\":\"#ffffff\"},\"shape\":{\"type\":\"star\",\"stroke\":{\"width\":0,\"color\":\"#000000\"},\"polygon\":{\"nb_sides\":5},\"image\":{\"src\":\"http:\/\/wiki.lexisnexis.com\/academic\/images\/f\/fb\/Itunes_podcast_icon_300.jpg\",\"width\":100,\"height\":100}},\"opacity\":{\"value\":0.5,\"random\":false,\"anim\":{\"enable\":false,\"speed\":1,\"opacity_min\":0.1,\"sync\":false}},\"size\":{\"value\":4,\"random\":true,\"anim\":{\"enable\":false,\"speed\":40,\"size_min\":0.1,\"sync\":false}},\"line_linked\":{\"enable\":false,\"distance\":150,\"color\":\"#ffffff\",\"opacity\":0.4,\"width\":1},\"move\":{\"enable\":true,\"speed\":14,\"direction\":\"left\",\"random\":false,\"straight\":true,\"out_mode\":\"out\",\"bounce\":false,\"attract\":{\"enable\":false,\"rotateX\":600,\"rotateY\":1200}}},\"interactivity\":{\"detect_on\":\"canvas\",\"events\":{\"onhover\":{\"enable\":false,\"mode\":\"grab\"},\"onclick\":{\"enable\":true,\"mode\":\"repulse\"},\"resize\":true},\"modes\":{\"grab\":{\"distance\":200,\"line_linked\":{\"opacity\":1}},\"bubble\":{\"distance\":400,\"size\":40,\"duration\":2,\"opacity\":8,\"speed\":3},\"repulse\":{\"distance\":200,\"duration\":0.4},\"push\":{\"particles_nb\":4},\"remove\":{\"particles_nb\":2}}},\"retina_detect\":true}"},"eael_translate_text":{"required_text":"is a required field","invalid_text":"Invalid","billing_text":"Billing"},"eael_login_nonce":"8e3492c17e","eael_register_nonce":"56dc432586"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.zippng.com/wp-content/uploads/essential-addons-elementor/734e5f942.min.js?ver=1625457148" id="2df2ef6d3-js" defer></script>
+<script type="text/javascript" id="rocket-browser-checker-js-after">
+"use strict";var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||!1,descriptor.configurable=!0,"value"in descriptor&&(descriptor.writable=!0),Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){return protoProps&&defineProperties(Constructor.prototype,protoProps),staticProps&&defineProperties(Constructor,staticProps),Constructor}}();function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor))throw new TypeError("Cannot call a class as a function")}var RocketBrowserCompatibilityChecker=function(){function RocketBrowserCompatibilityChecker(options){_classCallCheck(this,RocketBrowserCompatibilityChecker),this.passiveSupported=!1,this._checkPassiveOption(this),this.options=!!this.passiveSupported&&options}return _createClass(RocketBrowserCompatibilityChecker,[{key:"_checkPassiveOption",value:function(self){try{var options={get passive(){return!(self.passiveSupported=!0)}};window.addEventListener("test",null,options),window.removeEventListener("test",null,options)}catch(err){self.passiveSupported=!1}}},{key:"initRequestIdleCallback",value:function(){!1 in window&&(window.requestIdleCallback=function(cb){var start=Date.now();return setTimeout(function(){cb({didTimeout:!1,timeRemaining:function(){return Math.max(0,50-(Date.now()-start))}})},1)}),!1 in window&&(window.cancelIdleCallback=function(id){return clearTimeout(id)})}},{key:"isDataSaverModeOn",value:function(){return"connection"in navigator&&!0===navigator.connection.saveData}},{key:"supportsLinkPrefetch",value:function(){var elem=document.createElement("link");return elem.relList&&elem.relList.supports&&elem.relList.supports("prefetch")&&window.IntersectionObserver&&"isIntersecting"in IntersectionObserverEntry.prototype}},{key:"isSlowConnection",value:function(){return"connection"in navigator&&"effectiveType"in navigator.connection&&("2g"===navigator.connection.effectiveType||"slow-2g"===navigator.connection.effectiveType)}}]),RocketBrowserCompatibilityChecker}();
+</script>
+<script type="text/javascript" id="rocket-preload-links-js-extra">
+/* <![CDATA[ */
+var RocketPreloadLinksConfig = {"excludeUris":"\/(.+\/)?feed\/?.+\/?|\/(?:.+\/)?embed\/|\/(index\\.php\/)?wp\\-json(\/.*|$)|\/wp-admin\/|\/logout\/|\/wp-login.php","usesTrailingSlash":"1","imageExt":"jpg|jpeg|gif|png|tiff|bmp|webp|avif","fileExt":"jpg|jpeg|gif|png|tiff|bmp|webp|avif|php|pdf|html|htm","siteUrl":"https:\/\/www.zippng.com","onHoverDelay":"100","rateThrottle":"3"};
+/* ]]> */
+</script>
+<script type="text/javascript" id="rocket-preload-links-js-after">
+(function() {
+"use strict";var r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},e=function(){function i(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}return function(e,t,n){return t&&i(e.prototype,t),n&&i(e,n),e}}();function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var t=function(){function n(e,t){i(this,n),this.browser=e,this.config=t,this.options=this.browser.options,this.prefetched=new Set,this.eventTime=null,this.threshold=1111,this.numOnHover=0}return e(n,[{key:"init",value:function(){!this.browser.supportsLinkPrefetch()||this.browser.isDataSaverModeOn()||this.browser.isSlowConnection()||(this.regex={excludeUris:RegExp(this.config.excludeUris,"i"),images:RegExp(".("+this.config.imageExt+")$","i"),fileExt:RegExp(".("+this.config.fileExt+")$","i")},this._initListeners(this))}},{key:"_initListeners",value:function(e){-1<this.config.onHoverDelay&&document.addEventListener("mouseover",e.listener.bind(e),e.listenerOptions),document.addEventListener("mousedown",e.listener.bind(e),e.listenerOptions),document.addEventListener("touchstart",e.listener.bind(e),e.listenerOptions)}},{key:"listener",value:function(e){var t=e.target.closest("a"),n=this._prepareUrl(t);if(null!==n)switch(e.type){case"mousedown":case"touchstart":this._addPrefetchLink(n);break;case"mouseover":this._earlyPrefetch(t,n,"mouseout")}}},{key:"_earlyPrefetch",value:function(t,e,n){var i=this,r=setTimeout(function(){if(r=null,0===i.numOnHover)setTimeout(function(){return i.numOnHover=0},1e3);else if(i.numOnHover>i.config.rateThrottle)return;i.numOnHover++,i._addPrefetchLink(e)},this.config.onHoverDelay);t.addEventListener(n,function e(){t.removeEventListener(n,e,{passive:!0}),null!==r&&(clearTimeout(r),r=null)},{passive:!0})}},{key:"_addPrefetchLink",value:function(i){return this.prefetched.add(i.href),new Promise(function(e,t){var n=document.createElement("link");n.rel="prefetch",n.href=i.href,n.onload=e,n.onerror=t,document.head.appendChild(n)}).catch(function(){})}},{key:"_prepareUrl",value:function(e){if(null===e||"object"!==(void 0===e?"undefined":r(e))||!1 in e||-1===["http:","https:"].indexOf(e.protocol))return null;var t=e.href.substring(0,this.config.siteUrl.length),n=this._getPathname(e.href,t),i={original:e.href,protocol:e.protocol,origin:t,pathname:n,href:t+n};return this._isLinkOk(i)?i:null}},{key:"_getPathname",value:function(e,t){var n=t?e.substring(this.config.siteUrl.length):e;return n.startsWith("/")||(n="/"+n),this._shouldAddTrailingSlash(n)?n+"/":n}},{key:"_shouldAddTrailingSlash",value:function(e){return this.config.usesTrailingSlash&&!e.endsWith("/")&&!this.regex.fileExt.test(e)}},{key:"_isLinkOk",value:function(e){return null!==e&&"object"===(void 0===e?"undefined":r(e))&&(!this.prefetched.has(e.href)&&e.origin===this.config.siteUrl&&-1===e.href.indexOf("?")&&-1===e.href.indexOf("#")&&!this.regex.excludeUris.test(e.href)&&!this.regex.images.test(e.href))}}],[{key:"run",value:function(){"undefined"!=typeof RocketPreloadLinksConfig&&new n(new RocketBrowserCompatibilityChecker({capture:!0,passive:!0}),RocketPreloadLinksConfig).init()}}]),n}();t.run();
+}());
+</script>
+<script type="text/javascript" src="https://www.zippng.com/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js?ver=1.0.1" id="smartmenus-js" defer></script>
+<script type="text/javascript" src="https://www.zippng.com/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js?ver=3.3.1" id="elementor-pro-webpack-runtime-js" defer></script>
+<script type="text/javascript" src="https://www.zippng.com/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js?ver=3.2.5" id="elementor-webpack-runtime-js" defer></script>
+<script type="text/javascript" src="https://www.zippng.com/wp-content/plugins/elementor/assets/js/frontend-modules.min.js?ver=3.2.5" id="elementor-frontend-modules-js" defer></script>
+<script type="text/javascript" src="https://www.zippng.com/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js?ver=3.3.1" id="elementor-sticky-js" defer></script>
+<script type="text/javascript" id="elementor-pro-frontend-js-before">
+var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/www.zippng.com\/wp-admin\/admin-ajax.php","nonce":"8c3f6dc61a","urls":{"assets":"https:\/\/www.zippng.com\/wp-content\/plugins\/elementor-pro\/assets\/"},"i18n":{"toc_no_headings_found":"No headings were found on this page."},"shareButtonsNetworks":{"facebook":{"title":"Facebook","has_counter":true},"twitter":{"title":"Twitter"},"google":{"title":"Google+","has_counter":true},"linkedin":{"title":"LinkedIn","has_counter":true},"pinterest":{"title":"Pinterest","has_counter":true},"reddit":{"title":"Reddit","has_counter":true},"vk":{"title":"VK","has_counter":true},"odnoklassniki":{"title":"OK","has_counter":true},"tumblr":{"title":"Tumblr"},"digg":{"title":"Digg"},"skype":{"title":"Skype"},"stumbleupon":{"title":"StumbleUpon","has_counter":true},"mix":{"title":"Mix"},"telegram":{"title":"Telegram"},"pocket":{"title":"Pocket","has_counter":true},"xing":{"title":"XING","has_counter":true},"whatsapp":{"title":"WhatsApp"},"email":{"title":"Email"},"print":{"title":"Print"}},
+"facebook_sdk":{"lang":"en_US","app_id":""},"lottie":{"defaultAnimationUrl":"https:\/\/www.zippng.com\/wp-content\/plugins\/elementor-pro\/modules\/lottie\/assets\/animations\/default.json"}};
+</script>
+<script type="text/javascript" src="https://www.zippng.com/wp-content/plugins/elementor-pro/assets/js/frontend.min.js?ver=3.3.1" id="elementor-pro-frontend-js" defer></script>
+<script type="text/javascript" src="https://www.zippng.com/wp-content/plugins/elementor/assets/lib/waypoints/waypoints.min.js?ver=4.0.2" id="elementor-waypoints-js" defer></script>
+<script type="text/javascript" src="https://www.zippng.com/wp-includes/js/jquery/ui/core.min.js?ver=1.12.1" id="jquery-ui-core-js" defer></script>
+<script type="text/javascript" id="elementor-frontend-js-before">
+var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false,"isScriptDebug":false},"i18n":{"shareOnFacebook":"Share on Facebook","shareOnTwitter":"Share on Twitter","pinIt":"Pin it","download":"Download","downloadImage":"Download image","fullscreen":"Fullscreen","zoom":"Zoom","share":"Share","playVideo":"Play Video","previous":"Previous","next":"Next","close":"Close"},"is_rtl":false,"breakpoints":{"xs":0,"sm":480,"md":768,"lg":1025,"xl":1440,"xxl":1600},"responsive":{"breakpoints":{"mobile":{"label":"Mobile","value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"Mobile Extra","value":880,"direction":"max","is_enabled":false},"tablet":{"label":"Tablet","value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"Tablet Extra","value":1365,"direction":"max","is_enabled":false},"laptop":{"label":"Laptop","value":1620,"direction":"max","is_enabled":false},"widescreen":{"label":"Widescreen","value":2400,"direction":"min","is_enabled":false}}},
+"version":"3.2.5","is_static":false,"experimentalFeatures":{"e_dom_optimization":true,"e_optimized_assets_loading":true,"a11y_improvements":true,"form-submissions":true,"video-playlist":true},"urls":{"assets":"https:\/\/www.zippng.com\/wp-content\/plugins\/elementor\/assets\/"},"settings":{"page":[],"editorPreferences":[]},"kit":{"active_breakpoints":["viewport_mobile","viewport_tablet"],"global_image_lightbox":"yes","lightbox_enable_counter":"yes","lightbox_enable_fullscreen":"yes","lightbox_enable_zoom":"yes","lightbox_enable_share":"yes","lightbox_title_src":"title","lightbox_description_src":"description"},"post":{"id":194,"title":"Documentation%20%E2%80%93%20ZipPNG","excerpt":"","featuredImage":false}};
+</script>
+<script type="text/javascript" src="https://www.zippng.com/wp-content/plugins/elementor/assets/js/frontend.min.js?ver=3.2.5" id="elementor-frontend-js" defer></script>
+<script type="text/javascript" src="https://www.zippng.com/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js?ver=3.3.1" id="pro-elements-handlers-js" defer></script>
+<script>window.lazyLoadOptions={elements_selector:"img[data-lazy-src],.rocket-lazyload",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,callback_loaded:function(element){if(element.tagName==="IFRAME"&&element.dataset.rocketLazyload=="fitvidscompatible"){if(element.classList.contains("lazyloaded")){if(typeof window.jQuery!="undefined"){if(jQuery.fn.fitVids){jQuery(element).parent().fitVids()}}}}}};window.addEventListener('LazyLoad::Initialized',function(e){var lazyLoadInstance=e.detail.instance;if(window.MutationObserver){var observer=new MutationObserver(function(mutations){var image_count=0;var iframe_count=0;var rocketlazy_count=0;mutations.forEach(function(mutation){for(i=0;i<mutation.addedNodes.length;i++){if(typeof mutation.addedNodes[i].getElementsByTagName!=='function'){continue}
+if(typeof mutation.addedNodes[i].getElementsByClassName!=='function'){continue}
+images=mutation.addedNodes[i].getElementsByTagName('img');is_image=mutation.addedNodes[i].tagName=="IMG";iframes=mutation.addedNodes[i].getElementsByTagName('iframe');is_iframe=mutation.addedNodes[i].tagName=="IFRAME";rocket_lazy=mutation.addedNodes[i].getElementsByClassName('rocket-lazyload');image_count+=images.length;iframe_count+=iframes.length;rocketlazy_count+=rocket_lazy.length;if(is_image){image_count+=1}
+if(is_iframe){iframe_count+=1}}});if(image_count>0||iframe_count>0||rocketlazy_count>0){lazyLoadInstance.update()}});var b=document.getElementsByTagName("body")[0];var config={childList:!0,subtree:!0};observer.observe(b,config)}},!1)</script><script data-no-minify="1" async src="https://www.zippng.com/wp-content/plugins/wp-rocket/assets/js/lazyload/16.1/lazyload.min.js"></script>
+</body>
+
+
+<!-- This website is like a Rocket, isn't it? Performance optimized by WP Rocket. Learn more: https://wp-rocket.me - Debug: cached@1625457149 -->
+</html>
