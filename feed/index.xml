@@ -9,10 +9,10 @@
 
 <channel>
 	<title>ZipPNG</title>
-	<atom:link href="/feed/" rel="self" type="application/rss+xml" />
-	<link>/</link>
+	<atom:link href="https://www.zippng.com/feed/" rel="self" type="application/rss+xml" />
+	<link>https://www.zippng.com/</link>
 	<description>Real-Time Image Compression, Manipulation and Optimization</description>
-	<lastBuildDate>Sun, 11 Jul 2021 17:28:04 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 12 Jul 2021 00:56:29 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -21,9 +21,9 @@
 	<generator>https://wordpress.org/?v=5.7.2</generator>
 
 <image>
-	<url>/wp-content/uploads/2021/01/cropped-zipimg-icon-32x32.png</url>
+	<url>https://www.zippng.com/wp-content/uploads/2021/01/cropped-zipimg-icon-32x32.png</url>
 	<title>ZipPNG</title>
-	<link>/</link>
+	<link>https://www.zippng.com/</link>
 	<width>32</width>
 	<height>32</height>
 </image> 
