@@ -11,11 +11,11 @@
 	<atom:link href="https://www.zippng.com/comments/feed/" rel="self" type="application/rss+xml" />
 	<link>https://www.zippng.com/</link>
 	<description>Real-Time Image Compression, Manipulation and Optimization</description>
-	<lastBuildDate>Mon, 04 Oct 2021 12:08:46 +0000</lastBuildDate>
+	<lastBuildDate>Sat, 13 Nov 2021 09:40:19 +0000</lastBuildDate>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
 	<sy:updateFrequency>
 	1	</sy:updateFrequency>
-	<generator>https://wordpress.org/?v=5.8.1</generator>
+	<generator>https://wordpress.org/?v=5.8.2</generator>
 </channel>
 </rss>
